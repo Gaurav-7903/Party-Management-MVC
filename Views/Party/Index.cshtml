@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PartyResponseDTO>;
+
+<h1> All Party Show Here </h1>
+
+<a asp-action="Create" asp-controller="Party">Create Party</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Party Name</th>
+            <th>Recive Notfication</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var party in Model)
+        {
+            <tr>
+                <td>@party.PartyId</td>
+                <td>@party.PartyName</td>
+                <td>@party.ReceiveNotifications</td>
+                <td>
+                    <!-- Edit button -->
+                    <a asp-action="Update" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-warning btn-sm">Edit</a>
+
+                    <!-- Delete button -->
+                    <a asp-action="Delete" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

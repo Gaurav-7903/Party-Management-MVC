@@ -1,0 +1,59 @@
+﻿@model RegisterDTO
+@{
+    ViewBag.Title = "Register";
+} 
+
+<h1> Register User </h1>
+
+<form asp-action="Register" asp-controller="Account" method="post">
+    <div class="form-group">
+        <label asp-for="Email">Email address</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="Enter email">
+        <span asp-validation-for="Email" class="text-red"></span>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="PersonName">Name</label>
+        <input asp-for="PersonName" class="form-control" placeholder="Name">
+        <span asp-validation-for="PersonName" class="text-red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control" placeholder="Password">
+        <span asp-validation-for="Password" class="text-red"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+        <span asp-validation-for="ConfirmPassword" class="text-red"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <label class="form-check-label" asp-for="UserType">Role</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input asp-for="UserType" id="User" type="radio" value="User" checked />
+        <label for="User">User</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input asp-for="UserType" id="Admin" type="radio" value="Admin" />
+        <label for="Admin">Admin</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    <div asp-validation-summary="All" class="text-red"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="text-red ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>

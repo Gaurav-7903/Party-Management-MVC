@@ -1,0 +1,36 @@
+﻿@model ProductResponseDTO
+@{
+    ViewBag.Title = "Delete Produt";
+}
+
+<h1> Delete Product </h1>
+
+<form asp-action="Delete" asp-controller="Produt" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="ProductId" />
+
+        <label asp-for="ProductName">Product Name</label>
+        <input class="form-control" asp-for="ProductName" value="@Model.ProductName" readonly>
+
+        <label asp-for="Price">Product Price</label>
+        <input class="form-control" asp-for="Price" value="@Model.Price" readonly>
+
+        <span asp-validation-for="ProductName" class="danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+
+    <div asp-validation-summary="All" class="danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="danger ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>

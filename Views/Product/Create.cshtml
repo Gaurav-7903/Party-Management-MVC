@@ -1,0 +1,34 @@
+﻿@model ProductRequestDTO
+@{
+    ViewBag.Title = "Create Product";
+}
+
+<h1> Create Product </h1>
+
+<form asp-action="Create" asp-controller="Product" method="post">
+    <div class="form-group">
+        <label asp-for="ProuctName">Product Name</label>
+        <input class="form-control" asp-for="ProuctName" placeholder="Enter Product Name">
+        <span asp-validation-for="ProuctName" class="danger"></span>
+
+        <label asp-for="Price">Product Price</label>
+        <input class="form-control" asp-for="Price" placeholder="Enter Product Price">
+        <span asp-validation-for="Price" class="danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+    <div asp-validation-summary="All" class="danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="danger ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>

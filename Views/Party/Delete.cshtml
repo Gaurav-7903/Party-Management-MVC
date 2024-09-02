@@ -1,0 +1,33 @@
+﻿@model PartyResponseDTO
+@{
+    ViewBag.Title = "Delete Party";
+}
+
+<h1> Delete Party </h1>
+
+<form asp-action="Delete" asp-controller="Party" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="PartyId" />
+        <label asp-for="PartyName">Party Name</label>
+        <input class="form-control" asp-for="PartyName" placeholder="Enter Party Name" value="@Model.PartyName" readonly>
+        <span asp-validation-for="PartyName" class="danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+
+    <div asp-validation-summary="All" class="danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="danger ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>
+
+

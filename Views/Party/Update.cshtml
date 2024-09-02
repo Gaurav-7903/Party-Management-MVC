@@ -1,0 +1,44 @@
+﻿@model PartyResponseDTO
+
+@{
+    ViewBag.Title = "Update Party";
+}
+
+<h1> Update Party </h1>
+
+<form asp-action="Update" asp-controller="Party" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="PartyId" />
+        <label asp-for="PartyName">Party Name</label>
+        <input class="form-control" asp-for="PartyName" placeholder="Enter Party Name" value="@Model.PartyName">
+        <span asp-validation-for="PartyName" class="danger"></span>
+
+        @{
+            if (Model.ReceiveNotifications)
+            {
+                <input type="checkbox" asp-for="ReceiveNotifications" checked />    
+            }
+            else
+            {
+                <input type="checkbox" asp-for="ReceiveNotifications" />
+            }
+        }
+        <label asp-for="ReceiveNotifications">Receive Mail For LatestUpdate</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+    <div asp-validation-summary="All" class="danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="danger ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>
