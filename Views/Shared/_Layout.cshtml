@@ -29,10 +29,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
                         </li>
-                    </ul>
-                        <p> @User.Identity?.Name </p>
-                        <a asp-controller="Account" asp-action="Register"> <button class="btn btn-outline-success mx-2">Register</button></a>
-                        <a asp-controller="Account" asp-action="Login"> <button class="btn btn-outline-success mx-2">Login</button></a>
+                    </ul>   
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="text-center my-auto"> @User.Identity?.Name </p>
+                            <a asp-controller="Account" asp-action="Logout"><button class="btn btn-outline-danger mx-2">Logout</button></a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Register"> <button class="btn btn-outline-success mx-2">Register</button></a>
+                            <a asp-controller="Account" asp-action="Login"> <button class="btn btn-outline-success mx-2">Login</button></a>
+                        }
+                    }
+                       
                 </div>
             </div>
         </nav>

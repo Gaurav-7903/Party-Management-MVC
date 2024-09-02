@@ -25,14 +25,14 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize("NotAuthorized")]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize("NotAuthorized")]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             if (!ModelState.IsValid)
@@ -83,15 +83,15 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize("NotAuthorized")]
         public IActionResult Login()
         {
-            return View();
+            return View("Login");
         }
 
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize("NotAuthorized")]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             if (!ModelState.IsValid)

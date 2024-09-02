@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-//builder.Services.AddControllersWithViews(options =>
-//{
-//    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // Only For Post Action Method
-//});
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // Only For Post Action Method
+});
+//builder.Services.AddControllersWithViews();
 
 // DI Service
 builder.Services.AddScoped<IPartyService, PartyService>();
@@ -35,7 +36,29 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>() // // Manipulating the User Data
     .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>(); // Manipulating the Role Data
 
-//builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
+
+
+// Authcation and Authentication and Authrazation Service
+
+builder.Services.AddAuthorization(option =>
+{
+    // Apply authorization for all the
+    option.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); // only authenticate user is allowed
+    option.AddPolicy("NotAuthorized", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            return !context.User.Identity.IsAuthenticated;
+        });
+    });
+});
+
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = "/Account/Login";
+});
+
 
 var app = builder.Build();
 
@@ -48,13 +71,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Party}/{action=Index}/{id?}"
-//);
 
 app.Run();

@@ -25,7 +25,7 @@ public class AlphaOnlyLengthAttribute : ValidationAttribute
 
             if (!Regex.IsMatch(strValue, "^[a-zA-Z]+$"))
             {
-                return new ValidationResult("The field can only contain letters.");
+                return new ValidationResult("The field can not contain letters.");
             }
         }
 
