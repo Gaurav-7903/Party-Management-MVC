@@ -33,8 +33,8 @@ namespace Services
             var productRate = new ProductRate
             {
                 ProductId = product.ProductId,
-                Rate = productRequestDTO.Price, // Assuming price is used for rate in this example
-                EffectiveDate = DateTime.Now // Or use a provided value
+                Rate = productRequestDTO.Price,
+                EffectiveDate = DateTime.Now
             };
 
             _db.ProductRates.Add(productRate);

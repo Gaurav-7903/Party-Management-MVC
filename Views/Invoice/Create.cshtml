@@ -1,0 +1,131 @@
+﻿@using Party_Management.ViewModels;
+@model InvoiceViewModel
+@{
+    ViewBag.Title = "Create Invoice";
+}
+
+<h1> Create a Invoice For Party</h1>
+
+<div class="d-flex flex-row">
+   
+    <div class="w-100 bg-light p-2 border">
+
+        <form id="addProductForm">
+            <input type="hidden" value="@Model.PartyId" id="partyId"/>
+            <div class="form-group mb-2">
+                <label for="Party">Party</label>
+               @*  <select class="form-select" id="party" asp-for="">
+                    <option value="">Select Party</option>
+                </select> *@
+                <input class="form-control" readonly value="@Model.PartyName">
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Product">Product</label>
+                <select class="form-select" id="product">
+                    <option value="">Select Product</option>
+                    @foreach (var product in ViewBag.products)
+                    {
+                        <option value="@product.ProductId" data-price="@product.Price">@product.ProductName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Quantity">Quantity</label>
+                <input type="number" class="form-control" id="quantity" placeholder="Quantity" min="1">
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="Price">Price</label>
+                <input type="number" class="form-control" id="price" placeholder="Price" readonly>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+    </div>
+
+    <div class="w-100 bg-light p-2 border">
+        <h3> Invoice Details </h3>
+
+        <table class="table table-striped" id="InvoiceProdcuts">
+            <thead>
+              <tr>
+                  <th>Product Id</th>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Sub Total</th>
+              </tr>
+            </thead>
+            <tbody id="invoiceBody">
+             
+            </tbody>
+        </table>
+
+        <button class="btn btn-dark">Generate Invoice</button>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+
+        let products = [];
+        let productPrice = document.getElementById("Price")
+
+        let AddProductButton = 
+
+        $(document).ready(function () {
+            $('#product').on('change', function () {
+                var selectedOption = $(this).find('option:selected');
+                if(!selectedOption.val()){
+                    $("#price").val("");
+                    return;
+                }
+                var price = selectedOption.data('price');
+                $("#price").val(price);
+            });
+
+            $('#addProductForm').on('submit', function (event) {
+                event.preventDefault();
+
+                var partyId = $('#partyId').val();
+                var productId = $('#product').val();
+                var quantity = $('#quantity').val();
+                var price = $('#price').val();
+
+                if (!productId || !quantity || !price) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                products.push({ partyId, productId, quantity, price });
+
+                var subtotal = quantity * price;
+                var productName = $('#product option:selected').text();
+
+                $('#invoiceBody').append(
+                    '<tr>' +
+                    '<td>' + productId + '</td>' +
+                    '<td>' + productName + '</td>' +
+                    '<td>' + quantity + '</td>' +
+                    '<td>' + price + '</td>' +
+                    '<td>' + subtotal.toFixed(2) + '</td>' +
+                    '</tr>'
+                );
+
+                $('#product option:selected').remove();
+
+                $('#quantity').val('');
+                $('#price').val('');
+                $('#product').val('');
+        });
+
+
+    }); 
+
+
+    </script>
+}
