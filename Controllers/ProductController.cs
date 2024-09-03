@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Party_Management.DTOs;
 using Party_Management.Models;
+using Party_Management.ServiceContract;
 using ServiceContract;
 using Services;
 
@@ -10,9 +11,11 @@ namespace Party_Management.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IProductRateService _productRateService;
+        public ProductController(IProductService productService, IProductRateService productRateService)
         {
             _productService = productService;
+            _productRateService = productRateService;
         }
 
         public IActionResult Index()
@@ -75,10 +78,39 @@ namespace Party_Management.Controllers
         {
             if (ProductId <= 0)
             {
-                return RedirectToAction(nameof(PartyController.Index), "Product");
+                return RedirectToAction(nameof(ProductController.Index), "Product");
             }
             _productService.DeleteProduct(ProductId);
-            return RedirectToAction(nameof(PartyController.Index), "Product");
+            return RedirectToAction(nameof(ProductController.Index), "Product");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int productId)
+        {
+            if (productId <= 0)
+            {
+                return RedirectToAction(nameof(PartyController.Index), "Product");
+            }
+            ProductResponseDTO product = _productService.GetProductById(productId);
+            IEnumerable<ProductRateResponseDTO> productRate = _productRateService.GetProductRateById(productId);
+
+            ProductRateAndProductDTO productRateAndProductDTO = new ProductRateAndProductDTO()
+            {
+                ProductResponseDTO = product,
+                productRateResponseDTO = productRate,
+            };
+            return View(productRateAndProductDTO);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeRate(ProductRateAndProductDTO request)
+        {
+            if (request.ProductRateRequestDTO == null)
+            {
+                return RedirectToAction(nameof(ProductController.Index), "Product");
+            }
+            ProductRateResponseDTO productRateResponse = _productRateService.ChangeProductRate(request.ProductRateRequestDTO);
+            return RedirectToAction(nameof(ProductController.Details), "Product", new { productId = request.ProductRateRequestDTO.ProductId });
         }
     }
 }

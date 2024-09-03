@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Party_Management.Data;
 using Party_Management.Models;
+using Party_Management.Service;
+using Party_Management.ServiceContract;
 using ServiceContract;
 using Services;
 
@@ -21,6 +23,7 @@ builder.Services.AddControllersWithViews(options =>
 // DI Service
 builder.Services.AddScoped<IPartyService, PartyService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRateService, ProductRateService>();
 
 // Add Db Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

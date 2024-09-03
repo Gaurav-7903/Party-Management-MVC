@@ -119,10 +119,12 @@ namespace Services
                 throw new InvalidOperationException("Product Not Found");
             }
 
-            ProductRate? productRate = _db.ProductRates.Where(p => p.ProductId == productId).OrderByDescending(p => p.EffectiveDate).FirstOrDefault();
+            ProductRate? productRate = _db.ProductRates.Where(p => p.ProductId == productId && p.EffectiveDate <= DateTime.Now).OrderByDescending(p => p.EffectiveDate).FirstOrDefault();
 
             return product.ToProdcutResponse(productRate);
         }
+
+
 
 
     }

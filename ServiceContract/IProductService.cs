@@ -18,5 +18,6 @@ namespace ServiceContract
         public bool DeleteProduct(int ProductId);
 
         public ProductResponseDTO GetProductById(int ProductId);
-    }
-}
+
+
+

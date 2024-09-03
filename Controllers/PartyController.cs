@@ -89,6 +89,11 @@ namespace Party_Management.Controllers
             return RedirectToAction(nameof(PartyController.Index), "Party");
         }
 
+        public IActionResult Details(int PartyId)
+        {
+
+        }
+
 
     }
 }

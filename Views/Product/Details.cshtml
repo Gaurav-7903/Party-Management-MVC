@@ -1,0 +1,71 @@
+﻿@model ProductRateAndProductDTO
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<h1> Product Details </h1>
+
+<p> @Model.ProductResponseDTO.ProductName</p>
+
+<p> @Model.ProductResponseDTO.Price </p>
+
+<form asp-action="ChangeRate" asp-controller="Product" method="post">
+    <div class="form-group">
+        <label asp-for="ProductResponseDTO.ProductName">Product Name</label>
+        <input class="form-control" asp-for="ProductResponseDTO.ProductName" readonly>
+
+        <label asp-for="ProductResponseDTO.Price">Current Price</label>
+        <input class="form-control" asp-for="ProductResponseDTO.Price" readonly>
+        <span asp-validation-for="ProductResponseDTO.Price" class="danger"></span>
+
+        <input asp-for="ProductRateRequestDTO.ProductId" value="@Model.ProductResponseDTO.ProductId" type="hidden" />
+
+        <label asp-for="ProductRateRequestDTO.Rate">New Price</label>
+        <input class="form-control" asp-for="ProductRateRequestDTO.Rate" placeholder="Enter New Price">
+        <span asp-validation-for="ProductRateRequestDTO.Rate" class="danger"></span>
+
+        <label asp-for="ProductRateRequestDTO.EffectiveDate">Date</label>
+        <input class="form-control" asp-for="ProductRateRequestDTO.EffectiveDate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+        <span asp-validation-for="ProductRateRequestDTO.EffectiveDate" class="danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+    <div asp-validation-summary="All" class="danger"></div>
+
+    @if (ViewBag.Errors != null)
+    {
+        <div class="danger ml">
+            <ul>
+                @foreach (string error in ViewBag.Errors)
+                {
+                    <li class="ml">@error</li>
+                }
+            </ul>
+        </div>
+    }
+</form>
+
+
+<table id="Products" class="display table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Product Rate</th>
+            <th>Effective Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var productRate in Model.productRateResponseDTO)
+        {
+            <tr>
+                <td>@productRate.ProductRateId</td>
+                <td>@Model.ProductResponseDTO.ProductName</td>
+                <td>@productRate.Rate</td>
+                <td>@productRate.EffectiveDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>
