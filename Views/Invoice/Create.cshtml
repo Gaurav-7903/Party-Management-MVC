@@ -1,4 +1,6 @@
 ﻿@using Party_Management.ViewModels;
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
 @model InvoiceViewModel
 @{
     ViewBag.Title = "Create Invoice";
@@ -11,6 +13,7 @@
     <div class="w-100 bg-light p-2 border">
 
         <form id="addProductForm">
+            @Html.AntiForgeryToken()
             <input type="hidden" value="@Model.PartyId" id="partyId"/>
             <div class="form-group mb-2">
                 <label for="Party">Party</label>
@@ -64,7 +67,7 @@
             </tbody>
         </table>
 
-        <button class="btn btn-dark">Generate Invoice</button>
+        <button class="btn btn-dark" id="generateInvoiceButton">Generate Invoice</button>
     </div>
 
 </div>
@@ -72,11 +75,11 @@
 @section Scripts {
     <script>
 
-        let products = [];
-        let productPrice = document.getElementById("Price")
-
-        let AddProductButton = 
-
+        var partyId = $('#partyId').val();
+        var invoiceData = [];
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+        console.log(antiForgeryToken)
+  
         $(document).ready(function () {
             $('#product').on('change', function () {
                 var selectedOption = $(this).find('option:selected');
@@ -101,7 +104,12 @@
                     return;
                 }
 
-                products.push({ partyId, productId, quantity, price });
+                invoiceData.push({ 
+                  PartyId: parseInt(partyId), 
+                  ProductId: parseInt(productId),
+                  Quantity: parseInt(quantity),
+                  Price: parseFloat(price)
+                }); 
 
                 var subtotal = quantity * price;
                 var productName = $('#product option:selected').text();
@@ -121,10 +129,42 @@
                 $('#quantity').val('');
                 $('#price').val('');
                 $('#product').val('');
+            });
+
+            $('#generateInvoiceButton').on('click', function (event) {
+                event.preventDefault();
+
+                console.log(invoiceData);
+                if (invoiceData.length == 0) {
+                    console.log(invoiceData.length)
+                    alert('Please add at least one product to the invoice.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Invoice/CreateInvoice',
+                    type : 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(invoiceData),
+                    headers: {
+                        'RequestVerificationToken': antiForgeryToken
+                    },
+                    success: function (response) {
+                        // Handle success (e.g., redirect to another page, show a success message)
+                        alert('Invoice created successfully!');
+                        window.location.href = "/"
+                        // window.location.href = "/Invoice/Details/" + response.invoiceId;
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                        alert('Error: ' + error);
+                    }
+                })
+            }); 
+
         });
-
-
-    }); 
 
 
     </script>

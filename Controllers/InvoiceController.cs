@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Party_Management.DTOs;
 using Party_Management.ServiceContract;
 using Party_Management.ViewModels;
 using ServiceContract;
@@ -7,6 +8,7 @@ using ServiceContract;
 namespace Party_Management.Controllers
 {
     [Route("[controller]/[action]")]
+    //[IgnoreAntiforgeryToken]
     public class InvoiceController : Controller
     {
         private readonly IInvoiceService _invoiceService;
@@ -27,6 +29,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        
         public IActionResult Create(int partyId)
         {
             var products = _productAssignmentService.GetAssignProductByPartyID(partyId);
@@ -43,5 +46,24 @@ namespace Party_Management.Controllers
             };
             return View(invoiceView);
         }
+
+        [HttpPost]
+        public IActionResult CreateInvoice([FromBody] List<InvoiceRequestDTO> invoiceData)
+        {
+            Console.WriteLine("Enter in Controller");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid invoice data. ");
+            }
+            Console.WriteLine(invoiceData);
+            if (invoiceData == null || invoiceData.Count() == 0)
+            {
+                Console.WriteLine(invoiceData.Count());
+                return BadRequest("Invalid invoice data. ");
+            }
+
+            return Ok(new { Message = "Invoice created successfully!" });
+        }
+
     }
 }
