@@ -40,7 +40,7 @@ namespace Services
             _db.ProductRates.Add(productRate);
             _db.SaveChanges();
 
-            return product.ToProdcutResponse(productRate);
+            return product.ToProductResponse(productRate);
         }
 
         public ProductResponseDTO UpdateProduct(ProductResponseDTO productResponseDTO)
@@ -121,7 +121,7 @@ namespace Services
 
             ProductRate? productRate = _db.ProductRates.Where(p => p.ProductId == productId && p.EffectiveDate <= DateTime.Now).OrderByDescending(p => p.EffectiveDate).FirstOrDefault();
 
-            return product.ToProdcutResponse(productRate);
+            return product.ToProductResponse(productRate);
         }
 
 

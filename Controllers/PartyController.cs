@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Party_Management.DTOs;
 using Party_Management.Models;
+using Party_Management.ServiceContract;
 using ServiceContract;
 using Services;
 
@@ -12,9 +14,13 @@ namespace Party_Management.Controllers
     public class PartyController : Controller
     {
         private readonly IPartyService _partyService;
-        public PartyController(IPartyService partyService)
+        private readonly IProductAssignmentService _partyAssignmentService;
+        private readonly IProductService _productService;
+        public PartyController(IPartyService partyService, IProductAssignmentService partyAssignmentService, IProductService productService)
         {
             _partyService = partyService;
+            _partyAssignmentService = partyAssignmentService;
+            _productService = productService;
         }
 
 
@@ -89,11 +95,24 @@ namespace Party_Management.Controllers
             return RedirectToAction(nameof(PartyController.Index), "Party");
         }
 
-        public IActionResult Details(int PartyId)
+        public IActionResult Details(int partyId)
         {
+            if (partyId <= 0)
+            {
+                return RedirectToAction(nameof(PartyController.Index), "Party");
+            }
 
+            PartyResponseDTO partyResponseDTO = _partyService.GetPartyById(partyId);
+            IEnumerable<ProductResponseDTO> productRequestDTO = _partyAssignmentService.GetAssignProductByPartyID(partyId);
+
+            ProductAssignDTO productAssignDTO = new ProductAssignDTO()
+            {
+                PartyResponseDTO = partyResponseDTO,
+                ProductResponseDTOs = productRequestDTO,
+            };
+            return View(productAssignDTO);
         }
 
 
-    }
+    } // partyAssigment
 }

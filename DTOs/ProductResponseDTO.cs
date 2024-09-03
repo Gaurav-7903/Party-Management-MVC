@@ -15,7 +15,7 @@ namespace Party_Management.DTOs
 
 public static class ProductExtension
 {
-    public static ProductResponseDTO ToProdcutResponse(this Product product, ProductRate productRate)
+    public static ProductResponseDTO ToProductResponse(this Product product, ProductRate productRate)
     {
         return new ProductResponseDTO()
         {

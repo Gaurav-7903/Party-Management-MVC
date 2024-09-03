@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ProductAssignResponse>
+@{
+    ViewBag.Title = "All Product Assignment List";
+}
+
+<h3> Product Assignment History </h3>
+
+<table class="table table-striped" id="ProductAssignmentTabel">
+    <thead>
+        <tr>
+            <th>Assignment Id</th>
+            <th>Party Id</th>
+            <th>Party Name</th>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Party Details</th>
+            <th>Product Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductAssignId</td>
+                <td>@product.PartyID</td>
+                <td>@product.PartyName</td>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Party" asp-route-partyId="@product.PartyID" class="btn btn-info btn-sm">Party Details</a>
+                </td>
+                
+                <td>
+                    <a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Product Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

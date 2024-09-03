@@ -19,5 +19,7 @@ namespace ServiceContract
 
         public ProductResponseDTO GetProductById(int ProductId);
 
+    }
+}
 
 

@@ -6,10 +6,6 @@ namespace Party_Management.ServiceContract
     {
         public IEnumerable<ProductRateResponseDTO> GetProductRate();
         public IEnumerable<ProductRateResponseDTO> GetProductRateById(int productId);
-
-
         public ProductRateResponseDTO ChangeProductRate(ProductRateRequestDTO productRateRequestDTO);
-    }
-}
     }
 }

@@ -1,1 +1,35 @@
-﻿
+﻿@model ProductAssignDTO
+
+@{
+    ViewBag.Title = "Party Details";
+}
+
+<h1> Party Details </h1>
+
+<h3> @Model.PartyResponseDTO.PartyName </h3>
+
+<p> Total Product : @Model.ProductResponseDTOs.Count() </p>
+
+<a asp-action="ProductAssign" asp-controller="ProductAssignment" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-info btn-sm">Assign Product</a>
+
+<table id="PartyAssigment" class="display table table-striped">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Product Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.ProductResponseDTOs)
+        {
+            <tr>
+                <td>@product.ProductId</td>
+                <td>@product.ProductName</td>
+                <td>@product.Price</td>
+                <td><a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

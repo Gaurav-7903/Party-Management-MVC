@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddScoped<IPartyService, PartyService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRateService, ProductRateService>();
+builder.Services.AddScoped<IProductAssignmentService, ProductAssignmentService>();
 
 // Add Db Service
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
