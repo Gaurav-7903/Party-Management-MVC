@@ -10,6 +10,8 @@ namespace Party_Management.ViewModels
 
         public int SelectedProductId { get; set; }
 
+        public int SelectedPartyId { get; set; }
+
         //public IEnumerable<ProductResponseDTO> Products { get; set; }
     }
 }

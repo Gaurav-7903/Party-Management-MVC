@@ -1,0 +1,39 @@
+﻿@model InvoiceDetailDTO
+
+@{
+    ViewBag.Title = "Invoice Details";
+}
+
+<p> Invoice Id :  @Model.InvoiceId </p>
+<p> Invoice Date : @Model.InvoiceDate</p>
+<p> Party Id : @Model.PartyId</p>
+<p> Party Name : @Model.PartyName</p>
+
+<table class="table table-striped" id="Party">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var produt in Model.invoiceItems)
+        {
+            <tr>
+                <td>@produt.ProductId</td>
+                <td>@produt.ProductName</td>
+                <td>@produt.Quantity</td>
+                <td>@produt.Price</td>
+                <td>@(produt.Quantity * produt.Price)</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+    @{
+        var TotalPrice = Model.invoiceItems.Sum(p => p.Quantity * p.Price);
+        <h3>Total : @TotalPrice</h3>
+    }

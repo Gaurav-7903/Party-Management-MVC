@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<InvoiceResponseDTO>
+
+@{
     ViewBag.Title = "Invoice";
 }
 
@@ -6,4 +8,31 @@
 
 <a asp-action="Create" asp-controller="Invoice">Create Invoice</a>
 
-<p> Show the Invoice Table Here... </p>
+<table class="table table-striped" id="Party">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Party ID</th>
+            <th>PartyName</th>
+            <th>Total Product</th>
+            <th>Total Bill</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.PartyId</td>
+                <td>@invoice.PartyName</td>
+                <td>@invoice.ProductCount</td>
+                <td>@invoice.Total</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Invoice" asp-route-InvoiceId="@invoice.InvoiceId" class="btn btn-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

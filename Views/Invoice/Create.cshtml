@@ -78,7 +78,6 @@
         var partyId = $('#partyId').val();
         var invoiceData = [];
         var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
-        console.log(antiForgeryToken)
   
         $(document).ready(function () {
             $('#product').on('change', function () {
@@ -152,7 +151,7 @@
                     success: function (response) {
                         // Handle success (e.g., redirect to another page, show a success message)
                         alert('Invoice created successfully!');
-                        window.location.href = "/"
+                        window.location.href = "/Invoice/Index"
                         // window.location.href = "/Invoice/Details/" + response.invoiceId;
                     },
                     error: function (xhr, status, error) {

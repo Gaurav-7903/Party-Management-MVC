@@ -25,27 +25,43 @@ namespace Party_Management.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<InvoiceResponseDTO> allInvoices = _invoiceService.GetAllInvoice();
+            return View(allInvoices);
         }
 
         [HttpGet]
-        
-        public IActionResult Create(int partyId)
+        public IActionResult Create(int? partyId)
         {
-            var products = _productAssignmentService.GetAssignProductByPartyID(partyId);
-            ViewBag.products = products.Select(p => new
+            ViewBag.Party = _partyService.GetAllParty().Select(p => new
             {
-                ProductName = p.ProductName,
-                ProductId = p.ProductId.ToString(),
-                Price = p.Price.ToString("F2") // Format price as needed
+                Text = p.PartyName,
+                Value = p.PartyId.ToString()
             });
-            InvoiceViewModel invoiceView = new InvoiceViewModel()
+            InvoiceViewModel invoiceView;
+
+            if (partyId.HasValue)
             {
-                PartyId = partyId,
-                PartyName = _partyService.GetPartyById(partyId).PartyName
-            };
+                var products = _productAssignmentService.GetAssignProductByPartyID(partyId.Value);
+                ViewBag.products = products.Select(p => new
+                {
+                    ProductName = p.ProductName,
+                    ProductId = p.ProductId.ToString(),
+                    Price = p.Price.ToString("F2") // Format price as needed
+                });
+                invoiceView = new InvoiceViewModel()
+                {
+                    PartyId = partyId.Value,
+                    PartyName = _partyService.GetPartyById(partyId.Value).PartyName
+                };
+            }
+            else
+            {
+                invoiceView = new InvoiceViewModel();
+                ViewBag.Products = Enumerable.Empty<SelectListItem>();
+            }
             return View(invoiceView);
         }
+
 
         [HttpPost]
         public IActionResult CreateInvoice([FromBody] List<InvoiceRequestDTO> invoiceData)
@@ -62,7 +78,22 @@ namespace Party_Management.Controllers
                 return BadRequest("Invalid invoice data. ");
             }
 
-            return Ok(new { Message = "Invoice created successfully!" });
+            InvoiceResponseDTO invoiceResponse = _invoiceService.AddInvoice(invoiceData, invoiceData[0].PartyId);
+
+            return Ok(new { Message = "Invoice created successfully!", Total = invoiceResponse.Total.ToString(), TotalItem = invoiceResponse.ProductCount.ToString() });
+        }
+
+        [HttpGet]
+        public IActionResult Details(int invoiceId)
+        {
+            if (invoiceId < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(invoiceId));
+            }
+
+            InvoiceDetailDTO invoiceDetail = _invoiceService.GetInvoiceDetailsByInvoiceId(invoiceId);
+
+            return View(invoiceDetail);
         }
 
     }

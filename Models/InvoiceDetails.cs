@@ -32,7 +32,7 @@ namespace Party_Management.Models
 
         [Required(ErrorMessage = "Price is Required")]
         [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than 0")]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
     }
 
 }
