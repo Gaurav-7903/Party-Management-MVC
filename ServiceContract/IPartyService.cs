@@ -1,6 +1,7 @@
 ﻿
 
 using Party_Management.DTOs;
+using Party_Management.Models;
 
 namespace ServiceContract
 {
@@ -18,7 +19,7 @@ namespace ServiceContract
 
         public PartyResponseDTO DeleteParty(int id);
 
-        public PartyResponseDTO? GetPartyByEmail(string EmailAddress);
+        public Party? GetPartyByEmail(string EmailAddress);
 
 
     }

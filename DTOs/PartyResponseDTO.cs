@@ -17,7 +17,7 @@ namespace Party_Management.DTOs
 
 public static class PartyExtension
 {
-    public static PartyResponseDTO ToPartyResponse(this Party party)
+    public static PartyResponseDTO ToPartyResponse(this Party? party)
     {
         return new PartyResponseDTO()
         {

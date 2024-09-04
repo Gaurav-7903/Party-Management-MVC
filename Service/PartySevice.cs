@@ -79,10 +79,10 @@ namespace Services
             return party.ToPartyResponse();
         }
 
-        public PartyResponseDTO? GetPartyByEmail(string EmailAddress)
+        public Party? GetPartyByEmail(string EmailAddress)
         {
             var party = _db.Parties.Where(p => p.EmailAddress==EmailAddress).FirstOrDefault();
-            return party.ToPartyResponse();
+            return party;
         }
     }
 }

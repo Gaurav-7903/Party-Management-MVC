@@ -12,5 +12,7 @@ namespace Party_Management.ServiceContract
         public IEnumerable<ProductResponseDTO> GetNotAssignedProduct(int partyId);
 
         public IEnumerable<ProductAssignResponse> GetAllAssignProductAndPArty();
+
+        public bool UnAssignProduct(int productId , int PartyId);
     }
 }

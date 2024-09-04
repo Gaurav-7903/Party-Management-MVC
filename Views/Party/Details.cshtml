@@ -1,4 +1,7 @@
-﻿@model ProductAssignDTO
+﻿@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+
+@model ProductAssignDTO
 
 @{
     ViewBag.Title = "Party Details";
@@ -8,6 +11,8 @@
 
 <h3> @Model.PartyResponseDTO.PartyName </h3>
 
+<p> Party ID : @Model.PartyResponseDTO.PartyId </p>
+
 <p> Total Product : @Model.ProductResponseDTOs.Count() </p>
 
 @if (User.IsInRole("Admin"))
@@ -15,8 +20,9 @@
     <a asp-action="ProductAssign" asp-controller="ProductAssignment" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-secondary btn-sm">Assign Product</a> 
 }
 
+@Html.AntiForgeryToken()
 
-<a asp-action="InvoiceByParty" asp-controller="Invoice" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-secondary btn-sm">All    Invoice</a>
+<a asp-action="InvoiceByParty" asp-controller="Invoice" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-secondary btn-sm">All Invoice</a>
 
 <table id="PartyAssigment" class="display table table-striped shadow-sm p-3 my-3 bg-dark rounded p-3">
     <thead>
@@ -34,7 +40,11 @@
                 <td>@product.ProductId</td>
                 <td>@product.ProductName</td>
                 <td>@product.Price</td>
-                <td><a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Details</a></td>
+                <td>
+                    <a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Details</a>
+                    <button class="btn btn-danger btn-sm" onclick="confirmUnassign('@product.ProductId', '@Model.PartyResponseDTO.PartyId')">Remove</button>
+                </td>
+
             </tr>
         }
     </tbody>
@@ -45,6 +55,37 @@
 @section Scripts {
 
     <script>
+        var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+
+        function confirmUnassign(productId, partyId) {
+            if (confirm("Are you sure you want to remove this product from the party?")) {
+
+
+                console.log(productId, partyId)
+                $.ajax({
+                    url: '@Url.Action("UnAssignProduct", "Party")', // Backend action to unassign product
+                    type: 'POST',
+                    data: { productId: Number(productId), partyId: Number(partyId) },
+                    headers: {
+                        'RequestVerificationToken': antiForgeryToken
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Product unassigned successfully!");
+                            location.reload(); // Reload the page to refresh the table
+                        } else {
+                            alert("Error unassigning product.");
+                        }
+                    },
+                    error: function () {
+                        alert("Failed to unassign product. Please try again.");
+                    }
+                });
+            }
+        }
+
+
+
         $(document).ready(function () {
             $('#PartyAssigment').DataTable({
                 paging: true,

@@ -113,16 +113,39 @@ namespace Party_Management.Controllers
             return View(productAssignDTO);
         }
 
+        [HttpPost]
+        public IActionResult UnAssignProduct(int productId , int partyId)
+        {
+            if (productId <= 0)
+            {
+                //return RedirectToAction(nameof(PartyController.Details), "Party", new { partyId });
+                return Json(new { success = false, message = "Invalid Product Id" });
+            }
+            if(partyId <=0)
+            {
+                //return RedirectToAction(nameof(PartyController.Details), "Party");
+                return Json(new { success = false, message = "Invalid Party Id" });
+            }
+
+            bool IsUnAssignProduct =  _partyAssignmentService.UnAssignProduct(productId, partyId);
+
+            if (!IsUnAssignProduct)
+            {
+                return Json(new { success = false, message = "Assignment not found." });
+            }
+           return Json(new { success = true });
+          
+        }
+
 
         public IActionResult IsPartyRegister(string EmailAddress)
         {
-            PartyResponseDTO? partyById = _partyService.GetPartyByEmail(EmailAddress);
+            Party? partyById = _partyService.GetPartyByEmail(EmailAddress);
             if(partyById == null)
             {
                 return Json(true);
             }
-            return Json(false);
-            
+            return Json(false);   
         }
 
 

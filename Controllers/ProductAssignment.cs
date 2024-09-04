@@ -47,12 +47,12 @@ namespace Party_Management.Controllers
             {
                 ViewBag.Erros = ModelState.Values.SelectMany(t => t.Errors).Select(temp => temp.ErrorMessage);
                 Console.WriteLine("Error occure");
-                return View();
+                return View(request);
             }
 
             _productAssignmentService.AssignProductToParty(request.PartyID, request.SelectedProductId);
 
-            return RedirectToAction(nameof(PartyController.Index), "Party");
+            return RedirectToAction(nameof(PartyController.Details), "Party" , new {request.PartyID});
         }
 
         [HttpGet]
