@@ -12,8 +12,8 @@ using Party_Management.Data;
 namespace Party_Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240904042502_UpdatePriceDataType")]
-    partial class UpdatePriceDataType
+    [Migration("20240904094949_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -283,12 +283,16 @@ namespace Party_Management.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartyId"));
 
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PartyName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("ReciveNotfication")
+                    b.Property<bool>("ReceiveNotification")
                         .HasColumnType("bit");
 
                     b.HasKey("PartyId");

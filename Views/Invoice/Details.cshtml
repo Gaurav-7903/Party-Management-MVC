@@ -4,12 +4,14 @@
     ViewBag.Title = "Invoice Details";
 }
 
+<div class="d-flex flex-column shadow-sm p-3 my-2 bg-dark rounded p-3">
+
 <p> Invoice Id :  @Model.InvoiceId </p>
 <p> Invoice Date : @Model.InvoiceDate</p>
 <p> Party Id : @Model.PartyId</p>
 <p> Party Name : @Model.PartyName</p>
 
-<table class="table table-striped" id="Party">
+    <table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="Party">
     <thead>
         <tr>
             <th>Product ID</th>
@@ -35,5 +37,7 @@
 </table>
     @{
         var TotalPrice = Model.invoiceItems.Sum(p => p.Quantity * p.Price);
-        <h3>Total : @TotalPrice</h3>
+        <div>
+          <h3 class="text-end">Total : @TotalPrice</h3>
+        </div>
     }

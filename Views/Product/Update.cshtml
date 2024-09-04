@@ -6,30 +6,36 @@
 
 <h1> Update Product </h1>
 
-<form asp-action="Update" asp-controller="Product" method="post">
-    <div class="form-group">
-        <label asp-for="ProductName">Product Name</label>
-        <input class="form-control" asp-for="ProductName" placeholder="Enter Product Name" value="@Model.ProductName">
-        <span asp-validation-for="ProductName" class="danger"></span>
+<div class="w-50 mx-auto d-flex flex-column">
 
-        <label asp-for="Price">Product Price</label>
-        <input asp-for="Price" readonly class="form-control" value="@Model.Price">
-        <input asp-for="ProductId" type="hidden">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-
-    <div asp-validation-summary="All" class="danger"></div>
-
-    @if (ViewBag.Errors != null)
-    {
-        <div class="danger ml">
-            <ul>
-                @foreach (string error in ViewBag.Errors)
-                {
-                    <li class="ml">@error</li>
-                }
-            </ul>
+        <form asp-action="Update" asp-controller="Product" method="post">
+        <div class="form-group mb-3">
+            <label asp-for="ProductName">Product Name</label>
+            <input class="form-control" asp-for="ProductName" placeholder="Enter Product Name" value="@Model.ProductName">
+            <span asp-validation-for="ProductName" class="danger"></span>
         </div>
-    }
-</form>
+
+        <div class="form-group mb-3">
+            <label asp-for="Price">Product Price</label>
+            <input asp-for="Price" readonly class="form-control bg-dark" value="@Model.Price">
+            <input asp-for="ProductId" type="hidden">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+        <div asp-validation-summary="All" class="error"></div>
+
+        @if (ViewBag.Errors != null)
+        {
+            <div class="danger ml">
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error</li>
+                    }
+                </ul>
+            </div>
+        }
+        </form>
+
+</div>

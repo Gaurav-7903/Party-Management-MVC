@@ -4,27 +4,32 @@
     ViewBag.Title = "Register Party";
 }
 
-
-
 <h1> Register Party </h1>
 
+<div class="w-50 mx-auto d-flex flex-column">  
+
 <form asp-action="Create" asp-controller="Party" method="post">
-    <div class="form-group">
+    <div class="form-group mb-3">
         <label asp-for="PartyName">Party Name</label>
         <input class="form-control" asp-for="PartyName" placeholder="Enter Party Name">
         <span asp-validation-for="PartyName" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+
+    <div class="form-group mb-3">
+        <label asp-for="EmailAddress">Party Email</label>
+        <input class="form-control" asp-for="EmailAddress" placeholder="Enter Email Address">
+        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
         <input type="checkbox" asp-for="ReceiveNotifications" />
         <label asp-for="ReceiveNotifications">Receive Mail For LatestUpdate</label>
     </div>
 
-
-
     <button type="submit" class="btn btn-primary">Create</button>
 
-    <div asp-validation-summary="All" class="danger"></div>
+    <div asp-validation-summary="All" class="error"></div>
 
     @if (ViewBag.Errors != null)
     {
@@ -32,9 +37,20 @@
             <ul>
                 @foreach (string error in ViewBag.Errors)
                 {
-                    <li class="text-danger">@error</li>
+                   <li class="error">@error</li>
                 }
             </ul>
         </div>
     }
 </form>
+
+</div>
+
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" asp-fallback-test="window.jQuery" asp-fallback-src="~/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.4/jquery.validate.min.js" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/jquery.validate.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js" asp-fallback-test="window.jQuery.validator.unobstrusive" asp-fallback-src="~/jquery.validate.unobtrusive.min.js"></script>
+}

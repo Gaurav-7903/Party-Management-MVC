@@ -23,6 +23,12 @@ namespace Party_Management.Data
             .Property(p => p.Rate)
             .HasColumnType("decimal(18,2)");
 
+            builder.Entity<InvoiceDetails>()
+            .Property(p => p.Price)
+            .HasColumnType("decimal(18,2)");
+
+
+
             builder.Entity<Invoice>().ToTable(nameof(Invoice));
             builder.Entity<InvoiceDetails>().ToTable(nameof(InvoiceDetails));
             builder.Entity<PartyAssignment>().ToTable(nameof(PartyAssignment));

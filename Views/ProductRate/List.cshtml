@@ -6,7 +6,7 @@
 
 <h1> Product Rate History </h1>
 
-<table id="ProductsRateTable" class="display table table-striped">
+<table id="ProductsRateTable" class="display table table-striped shadow-sm p-3 my-3 bg-dark rounded p-3">
     <thead>
         <tr>
             <th>Id</th>
@@ -29,3 +29,25 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#ProductsRateTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    {
+                        targets: -1, // Targets the last column
+                        searchable: false,// Disables searching/filtering for this column
+                        sortable: false
+                    }
+                ]
+            });
+        });
+    </script>
+
+}

@@ -280,12 +280,16 @@ namespace Party_Management.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartyId"));
 
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PartyName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("ReciveNotfication")
+                    b.Property<bool>("ReceiveNotification")
                         .HasColumnType("bit");
 
                     b.HasKey("PartyId");

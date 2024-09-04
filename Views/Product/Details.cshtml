@@ -4,51 +4,66 @@
     ViewBag.Title = "Product Details";
 }
 
-<h1> Product Details </h1>
+<div class="w-50 d-flex flex-column mt-3">
 
-<p> @Model.ProductResponseDTO.ProductName</p>
+<h2> Product Details </h2>
 
-<p> @Model.ProductResponseDTO.Price </p>
+@* <p> Product Name : @Model.ProductResponseDTO.ProductName</p>
 
-<form asp-action="ChangeRate" asp-controller="Product" method="post">
-    <div class="form-group">
-        <label asp-for="ProductResponseDTO.ProductName">Product Name</label>
-        <input class="form-control" asp-for="ProductResponseDTO.ProductName" readonly>
+<p> @Model.ProductResponseDTO.Price </p> *@
 
+
+  
+    <form asp-action="ChangeRate" asp-controller="Product" method="post">
+        <div class="form-group mb-2">
+            <label asp-for="ProductResponseDTO.ProductName">Product Name</label>
+            <input class="form-control bg-dark" asp-for="ProductResponseDTO.ProductName" readonly>
+        </div>
+
+        <div class="form-group mb-2">
         <label asp-for="ProductResponseDTO.Price">Current Price</label>
-        <input class="form-control" asp-for="ProductResponseDTO.Price" readonly>
+        <input class="form-control bg-dark" asp-for="ProductResponseDTO.Price" readonly>
         <span asp-validation-for="ProductResponseDTO.Price" class="danger"></span>
+        </div>
 
         <input asp-for="ProductRateRequestDTO.ProductId" value="@Model.ProductResponseDTO.ProductId" type="hidden" />
 
-        <label asp-for="ProductRateRequestDTO.Rate">New Price</label>
-        <input class="form-control" asp-for="ProductRateRequestDTO.Rate" placeholder="Enter New Price">
-        <span asp-validation-for="ProductRateRequestDTO.Rate" class="danger"></span>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="form-group mb-2">
+            <label asp-for="ProductRateRequestDTO.Rate">New Price</label>
+            <input class="form-control" asp-for="ProductRateRequestDTO.Rate" placeholder="Enter New Price">
+            <span asp-validation-for="ProductRateRequestDTO.Rate" class="danger"></span>
+            </div>
 
-        <label asp-for="ProductRateRequestDTO.EffectiveDate">Date</label>
-        <input class="form-control" asp-for="ProductRateRequestDTO.EffectiveDate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
-        <span asp-validation-for="ProductRateRequestDTO.EffectiveDate" class="danger"></span>
-    </div>
+            <div class="form-group mb-2">
+            <label asp-for="ProductRateRequestDTO.EffectiveDate">Date</label>
+            <input class="form-control" asp-for="ProductRateRequestDTO.EffectiveDate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+            <span asp-validation-for="ProductRateRequestDTO.EffectiveDate" class="danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            
+        }
 
-    <div asp-validation-summary="All" class="danger"></div>
+        <div asp-validation-summary="All" class="error"></div>
 
-    @if (ViewBag.Errors != null)
-    {
-        <div class="danger ml">
-            <ul>
-                @foreach (string error in ViewBag.Errors)
-                {
-                    <li class="ml">@error</li>
-                }
-            </ul>
-        </div>
-    }
-</form>
+        @if (ViewBag.Errors != null)
+        {
+            <div class="danger ml">
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error</li>
+                    }
+                </ul>
+            </div>
+        }
+    </form>
+</div>
 
 
-<table id="Products" class="display table table-striped">
+<table id="ProductsDetails" class="display table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3">
     <thead>
         <tr>
             <th>Id</th>
@@ -69,3 +84,25 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#ProductsDetails').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    {
+                        targets: -1, // Targets the last column
+                        searchable: false,// Disables searching/filtering for this column
+                        sortable: false
+                    }
+                ]
+            });
+        });
+    </script>
+
+}

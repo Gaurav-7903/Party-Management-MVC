@@ -130,9 +130,8 @@ namespace Party_Management.Controllers
             return RedirectToAction(nameof(PartyController.Index), "Party");
         }
 
-
-
         [AllowAnonymous]
+        [Authorize("NotAuthorized")]
         public async Task<IActionResult> IsEmailAlreadyRegister(string email)
         {
             ApplicationUser? user = await _userManager.FindByEmailAsync(email);

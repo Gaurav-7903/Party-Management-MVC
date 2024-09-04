@@ -78,6 +78,23 @@ namespace Party_Management.Service
             return invoiceSummaries;
         }
 
+        public IEnumerable<InvoiceResponseDTO> GetInvoiceByPartyId(int partyId)
+        {
+            var partyInvoice = _db.Invoices.Where(invoice => invoice.PartyId == partyId)
+                .Select(invoice => new InvoiceResponseDTO
+                {
+                    InvoiceId = invoice.InvoiceId,
+                    PartyId = invoice.PartyId,
+                    PartyName = _db.Parties.Where(p => p.PartyId == invoice.PartyId).FirstOrDefault().PartyName,
+                    ProductCount = invoice.InvoiceDetails.Count(),
+                    Total = invoice.InvoiceDetails.Sum(detail => detail.Quantity * detail.Price),
+                    InvoiceDate = invoice.InvoiceDate,
+
+                }).ToList();
+
+            return partyInvoice;
+        }
+
         public InvoiceDetailDTO GetInvoiceDetailsByInvoiceId(int invoiceId)
         {
             try

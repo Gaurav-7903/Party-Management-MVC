@@ -5,10 +5,12 @@
 }
 
 <h1> Product </h1>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" asp-controller="Product" class="btn btn-secondary">Create Product</a>  
+}
 
-<a asp-action="Create" asp-controller="Product">Create Product</a>
-
-<table id="Products" class="display table table-striped">
+<table id="Products" class="display table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3">
     <thead>
         <tr>
             <th>Id</th>
@@ -25,11 +27,12 @@
                 <td>@product.ProductName</td>
                 <td>@product.Price</td>
                 <td>
-                    <!-- Edit button -->
-                    <a asp-action="Update" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm">Edit</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Update" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-warning btn-sm">Edit</a>
 
-                    <!-- Delete button -->
-                    <a asp-action="Delete" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-action="Delete" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-danger btn-sm">Delete</a> 
+                    }
 
                     <a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Details</a>
                 </td>
@@ -43,10 +46,17 @@
     <script>
         $(document).ready(function () {
             $('#Products').DataTable({
-                paging: true,        // Enables pagination
-                searching: true,     // Enables searching
-                ordering: true,      // Enables column ordering
-                info: true           // Displays table information (e.g., showing entries 1 to 10 of 57)
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    {
+                        targets: -1, // Targets the last column
+                        searchable: false,// Disables searching/filtering for this column
+                        sortable: false
+                    }
+                ]
             });
         });
     </script>

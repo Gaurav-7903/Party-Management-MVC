@@ -1,15 +1,19 @@
 ﻿@model IEnumerable<PartyResponseDTO>;
 
 <h1> Party </h1>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" asp-controller="Party"><button class="btn bg-secondary">Create Party</button></a>  
+}
 
-<a asp-action="Create" asp-controller="Party">Create Party</a>
-
-<table class="table table-striped" id="Party">
+<table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="Party">
     <thead>
         <tr>
             <th>Id</th>
             <th>Party Name</th>
+            <th>Email</th>
             <th>Recive Notfication</th>
+
             <th>Actions</th>
         </tr>
     </thead>
@@ -19,14 +23,21 @@
             <tr>
                 <td>@party.PartyId</td>
                 <td>@party.PartyName</td>
+                <td>@party.EmailAddress</td>
                 <td>@party.ReceiveNotifications</td>
                 <td>
-                    <a asp-action="Update" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="Delete" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-danger btn-sm">Delete</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Update" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-danger btn-sm">Delete</a>
+                    }
 
                     <a asp-action="Details" asp-controller="Party" asp-route-partyId="@party.PartyId" class="btn btn-info btn-sm">Details</a>
 
-                    <a asp-action="create" asp-controller="Invoice" asp-route-partyId="@party.PartyId" class="btn btn-info btn-sm">Create Invoice</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="create" asp-controller="Invoice" asp-route-partyId="@party.PartyId" class="btn btn-info btn-sm">Create Invoice</a>
+                    }
                 </td>
             </tr>
         }
@@ -38,14 +49,20 @@
     <script>
         $(document).ready(function () {
             $('#Party').DataTable({
-                paging: true,        // Enables pagination
-                searching: true,     // Enables searching
-                ordering: true,      // Enables column ordering
-                info: true           // Displays table information (e.g., showing entries 1 to 10 of 57)
+                paging: true,       
+                searching: true,    
+                ordering: true,    
+                info: true ,
+                columnDefs: [
+                    { 
+                        targets: -1, // Targets the last column
+                        searchable: false ,// Disables searching/filtering for this column
+                        sortable : false
+                    }
+                ]
             });
         });
     </script>
-
 }
 
 

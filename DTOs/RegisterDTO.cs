@@ -22,7 +22,7 @@ namespace Party_Management.DTOs
 
         [Required(ErrorMessage = "Confirm Password can't be blank")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "PassWord and Confirm Password Not Match")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password Not Match")]
         public string ConfirmPassword { get; set; }
 
         public UserRoleOptions UserType { get; set; } = UserRoleOptions.User;

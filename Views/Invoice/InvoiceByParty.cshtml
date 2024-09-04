@@ -1,22 +1,20 @@
 ﻿@model IEnumerable<InvoiceResponseDTO>
 
 @{
-    ViewBag.Title = "Invoice";
+    ViewBag.Title = "Party Invoice";
 }
 
-<h1> Create a Invoice</h1>
+<h1> Party Invoice </h1>
 
-<a asp-action="Create" asp-controller="Invoice" class="btn btn-secondary">Create Invoice</a>
-
-<table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="InvoiceTable">
+<table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="Party">
     <thead>
         <tr>
-            <th>Invoice ID</th>
-            <th>Party ID</th>
-            <th>PartyName</th>
+            <th>Invoice Id</th>
+            <th>Party Name</th>
             <th>Total Product</th>
-            <th>Total Bill</th>
-            <th>Details</th>
+            <th>Billing Price</th>
+            <th>Invoice Date</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -24,12 +22,12 @@
         {
             <tr>
                 <td>@invoice.InvoiceId</td>
-                <td>@invoice.PartyId</td>
                 <td>@invoice.PartyName</td>
                 <td>@invoice.ProductCount</td>
                 <td>@invoice.Total</td>
+                <td>@invoice.InvoiceDate.ToString("dd-mm-yyyy")</td>
                 <td>
-                    <a asp-action="Details" asp-controller="Invoice" asp-route-InvoiceId="@invoice.InvoiceId" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Details" asp-controller="Invoice" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-outline-info btn-sm">Details</a>
                 </td>
             </tr>
         }
@@ -40,21 +38,19 @@
 
     <script>
         $(document).ready(function () {
-            $('#InvoiceTable').DataTable({
+            $('#Party').DataTable({
                 paging: true,
                 searching: true,
                 ordering: true,
-                info: true,
+                info: true ,
                 columnDefs: [
                     {
                         targets: -1, // Targets the last column
-                        searchable: false,// Disables searching/filtering for this column
-                        sortable: false
+                        searchable: false ,// Disables searching/filtering for this column
+                        sortable : false
                     }
                 ]
             });
         });
     </script>
-
 }
-

@@ -23,7 +23,7 @@ public class AlphaOnlyLengthAttribute : ValidationAttribute
                 return new ValidationResult($"The field must be between {MinimumLength} and {MaximumLength} characters long.");
             }
 
-            if (!Regex.IsMatch(strValue, "^[a-zA-Z]+$"))
+            if (!Regex.IsMatch(strValue, "^[a-zA-Z ]+$"))
             {
                 return new ValidationResult("The field can not contain letters.");
             }

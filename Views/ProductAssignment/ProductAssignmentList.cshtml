@@ -3,9 +3,9 @@
     ViewBag.Title = "All Product Assignment List";
 }
 
-<h3> Product Assignment History </h3>
+<h2> Product Assignment History </h2>
 
-<table class="table table-striped" id="ProductAssignmentTabel">
+<table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="ProductAssignmentTabel ">
     <thead>
         <tr>
             <th>Assignment Id</th>
@@ -37,3 +37,25 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#ProductAssignmentTabel').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    {
+                        targets: [-1 ,-2], // Targets the last column
+                        searchable: false,// Disables searching/filtering for this column
+                        sortable: false
+                    }
+                ]
+            });
+        });
+    </script>
+
+}

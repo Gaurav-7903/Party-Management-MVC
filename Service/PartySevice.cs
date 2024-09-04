@@ -20,7 +20,8 @@ namespace Services
             var party = new Party()
             {
                 PartyName = request.PartyName,
-                ReciveNotfication = request.ReceiveNotifications,
+                ReceiveNotification = request.ReceiveNotifications,
+                EmailAddress = request.EmailAddress,
             };
 
             _db.Parties.Add(party);
@@ -65,7 +66,7 @@ namespace Services
                 throw new KeyNotFoundException("Party not found");
             }
             party.PartyName = request.PartyName;
-            party.ReciveNotfication = request.ReceiveNotifications;
+            party.ReceiveNotification = request.ReceiveNotifications;
 
             _db.SaveChanges();
 
@@ -75,6 +76,12 @@ namespace Services
         public PartyResponseDTO? GetPartyByName(string name)
         {
             var party = _db.Parties.Find(name);
+            return party.ToPartyResponse();
+        }
+
+        public PartyResponseDTO? GetPartyByEmail(string EmailAddress)
+        {
+            var party = _db.Parties.Where(p => p.EmailAddress==EmailAddress).FirstOrDefault();
             return party.ToPartyResponse();
         }
     }

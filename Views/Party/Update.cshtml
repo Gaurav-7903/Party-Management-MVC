@@ -6,17 +6,29 @@
 
 <h1> Update Party </h1>
 
-<form asp-action="Update" asp-controller="Party" method="post">
-    <div class="form-group">
+<div class="w-50 mx-auto d-flex flex-column">
+
+    <form asp-action="Update" asp-controller="Party" method="post">
+    <div class="form-group mb-3">
+
         <input type="hidden" asp-for="PartyId" />
         <label asp-for="PartyName">Party Name</label>
         <input class="form-control" asp-for="PartyName" placeholder="Enter Party Name" value="@Model.PartyName">
         <span asp-validation-for="PartyName" class="danger"></span>
+    </div>
 
+    <div class="form-group mb-3">
+        <label asp-for="EmailAddress">Party Email</label>
+        <input class="form-control" asp-for="EmailAddress" placeholder="Enter Email" value="@Model.EmailAddress">
+        <span asp-validation-for="EmailAddress" class="danger"></span>
+
+    </div>
+
+    <div class="form-group mb-3">
         @{
             if (Model.ReceiveNotifications)
             {
-                <input type="checkbox" asp-for="ReceiveNotifications" checked />    
+                <input type="checkbox" asp-for="ReceiveNotifications" checked />
             }
             else
             {
@@ -25,10 +37,10 @@
         }
         <label asp-for="ReceiveNotifications">Receive Mail For LatestUpdate</label>
     </div>
-
+        
     <button type="submit" class="btn btn-primary">Update</button>
 
-    <div asp-validation-summary="All" class="danger"></div>
+        <div asp-validation-summary="All" class="error"></div>
 
     @if (ViewBag.Errors != null)
     {
@@ -42,3 +54,5 @@
         </div>
     }
 </form>
+
+</div>

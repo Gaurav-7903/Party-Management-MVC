@@ -114,5 +114,17 @@ namespace Party_Management.Controllers
         }
 
 
+        public IActionResult IsPartyRegister(string EmailAddress)
+        {
+            PartyResponseDTO? partyById = _partyService.GetPartyByEmail(EmailAddress);
+            if(partyById == null)
+            {
+                return Json(true);
+            }
+            return Json(false);
+            
+        }
+
+
     } // partyAssigment
 }

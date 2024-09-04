@@ -12,8 +12,11 @@ namespace Party_Management.Models
         [RegularExpression(@"^[a-zA-Z\s]*$", ErrorMessage = "Party Name can only contain letters and spaces.")]
         public string PartyName { get; set; }
 
-        public bool ReciveNotfication { get; set; }
+        [Required(ErrorMessage = "Email Address is Required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string EmailAddress { get; set; }
 
+        public bool ReceiveNotification { get; set; }
 
         // navigation properties
         public ICollection<PartyAssignment>? PartyAssignments { get; set; }

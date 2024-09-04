@@ -10,9 +10,15 @@
 
 <p> Total Product : @Model.ProductResponseDTOs.Count() </p>
 
-<a asp-action="ProductAssign" asp-controller="ProductAssignment" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-info btn-sm">Assign Product</a>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="ProductAssign" asp-controller="ProductAssignment" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-secondary btn-sm">Assign Product</a> 
+}
 
-<table id="PartyAssigment" class="display table table-striped">
+
+<a asp-action="InvoiceByParty" asp-controller="Invoice" asp-route-partyId="@Model.PartyResponseDTO.PartyId" class="btn btn-secondary btn-sm">All    Invoice</a>
+
+<table id="PartyAssigment" class="display table table-striped shadow-sm p-3 my-3 bg-dark rounded p-3">
     <thead>
         <tr>
             <th>Product Id</th>
@@ -33,3 +39,26 @@
         }
     </tbody>
 </table>
+
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#PartyAssigment').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                columnDefs: [
+                    {
+                        targets: -1, // Targets the last column
+                        searchable: false,// Disables searching/filtering for this column
+                        sortable: false
+                    }
+                ]
+            });
+        });
+    </script>
+}

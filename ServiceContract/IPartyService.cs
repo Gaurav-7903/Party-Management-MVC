@@ -18,6 +18,8 @@ namespace ServiceContract
 
         public PartyResponseDTO DeleteParty(int id);
 
+        public PartyResponseDTO? GetPartyByEmail(string EmailAddress);
+
 
     }
 }

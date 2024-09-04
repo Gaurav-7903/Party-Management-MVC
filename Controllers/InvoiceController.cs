@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Party_Management.DTOs;
+using Party_Management.Models;
 using Party_Management.ServiceContract;
 using Party_Management.ViewModels;
 using ServiceContract;
@@ -86,7 +87,7 @@ namespace Party_Management.Controllers
         [HttpGet]
         public IActionResult Details(int invoiceId)
         {
-            if (invoiceId < 0)
+            if (invoiceId <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(invoiceId));
             }
@@ -95,6 +96,20 @@ namespace Party_Management.Controllers
 
             return View(invoiceDetail);
         }
+
+        public IActionResult InvoiceByParty(int partyId)
+        {
+            if (partyId < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(partyId));
+            }
+
+            IEnumerable<InvoiceResponseDTO> invoiceDetsilByParty = _invoiceService.GetInvoiceByPartyId(partyId);
+
+            return View(invoiceDetsilByParty);
+        }
+
+
 
     }
 }

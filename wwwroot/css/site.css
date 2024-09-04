@@ -20,3 +20,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.dt-input[type="search"] {
+    margin-left: 10px !important;
+    padding: 3px !important;
+}
+
+select.dt-input {
+    margin-right: 10px !important;
+    padding: 3px !important;
+}
+
+/*.dt-paging-button.disabled {
+    color: rgb(255 255 255 / 50%) !important;
+}*/
+
+div.dt-container .dt-paging .dt-paging-button.disabled {
+    color: rgb(255 255 255 / 100%) !important;
+}
+
+select.dt-input option {
+    background-color: #343a40 !important;
+    color : white !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(255, 255, 255, .075) !important;
+}
+
+.error {
+    color: rgb(220, 53, 69);
+}

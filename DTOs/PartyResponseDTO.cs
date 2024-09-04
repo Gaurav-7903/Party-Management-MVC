@@ -9,6 +9,8 @@ namespace Party_Management.DTOs
         public int PartyId { get; set; }
         public string PartyName { get; set; }
 
+        public string EmailAddress { get; set; }
+
         public bool ReceiveNotifications { get; set; }
     }
 }
@@ -21,7 +23,8 @@ public static class PartyExtension
         {
             PartyId = party.PartyId,
             PartyName = party.PartyName,
-            ReceiveNotifications = party.ReciveNotfication,
+            ReceiveNotifications = party.ReceiveNotification,
+            EmailAddress = party.EmailAddress,
         };
     }
 }
