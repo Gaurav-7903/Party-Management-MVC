@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Party_Management.DTOs;
 using Party_Management.ServiceContract;
@@ -19,6 +20,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult ProductAssign(int partyId)
         {
             IEnumerable<ProductResponseDTO> products = _productAssignmentService.GetNotAssignedProduct(partyId);
@@ -36,6 +38,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult ProductAssign(ProductAssignmentRequest request)
         {
             if (request == null)
@@ -52,7 +55,7 @@ namespace Party_Management.Controllers
 
             _productAssignmentService.AssignProductToParty(request.PartyID, request.SelectedProductId);
 
-            return RedirectToAction(nameof(PartyController.Details), "Party" , new {request.PartyID});
+            return RedirectToAction(nameof(PartyController.Details), "Party", new { request.PartyID });
         }
 
         [HttpGet]

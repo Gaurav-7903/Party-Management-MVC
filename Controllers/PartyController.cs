@@ -38,6 +38,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(PartyRequestDTO partyRequest)
         {
 
@@ -57,6 +58,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int partyId)
         {
 
@@ -66,6 +68,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(PartyResponseDTO partyRequest)
         {
             if (!ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int partyId)
         {
             PartyResponseDTO party = _partyService.GetPartyById(partyId);
@@ -85,6 +89,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int PartyId, PartyResponseDTO partyResponseDTO)
         {
             if (PartyId <= 0)
@@ -114,38 +119,39 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
-        public IActionResult UnAssignProduct(int productId , int partyId)
+        [Authorize(Roles = "Admin")]
+        public IActionResult UnAssignProduct(int productId, int partyId)
         {
             if (productId <= 0)
             {
                 //return RedirectToAction(nameof(PartyController.Details), "Party", new { partyId });
                 return Json(new { success = false, message = "Invalid Product Id" });
             }
-            if(partyId <=0)
+            if (partyId <= 0)
             {
                 //return RedirectToAction(nameof(PartyController.Details), "Party");
                 return Json(new { success = false, message = "Invalid Party Id" });
             }
 
-            bool IsUnAssignProduct =  _partyAssignmentService.UnAssignProduct(productId, partyId);
+            bool IsUnAssignProduct = _partyAssignmentService.UnAssignProduct(productId, partyId);
 
             if (!IsUnAssignProduct)
             {
                 return Json(new { success = false, message = "Assignment not found." });
             }
-           return Json(new { success = true });
-          
+            return Json(new { success = true });
+
         }
 
 
         public IActionResult IsPartyRegister(string EmailAddress)
         {
             Party? partyById = _partyService.GetPartyByEmail(EmailAddress);
-            if(partyById == null)
+            if (partyById == null)
             {
                 return Json(true);
             }
-            return Json(false);   
+            return Json(false);
         }
 
 

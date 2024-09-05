@@ -42,7 +42,12 @@
                 <td>@product.Price</td>
                 <td>
                     <a asp-action="Details" asp-controller="Product" asp-route-productId="@product.ProductId" class="btn btn-info btn-sm">Details</a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmUnassign('@product.ProductId', '@Model.PartyResponseDTO.PartyId')">Remove</button>
+
+                 
+                    @if(User.IsInRole("Admin")){
+                            <button class="btn btn-danger btn-sm" onclick="confirmUnassign('@product.ProductId', '@Model.PartyResponseDTO.PartyId')">Remove</button>
+                    }
+                    
                 </td>
 
             </tr>

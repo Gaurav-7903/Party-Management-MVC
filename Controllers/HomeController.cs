@@ -22,6 +22,8 @@ namespace Party_Management.Controllers
         [HttpGet]
         public IActionResult Error()
         {
+            var errorMessage = TempData["ErrorMessage"] as string;
+            ViewBag.ErrorMessage = errorMessage ?? "An unexpected error occurred.";
             return View();
         }
     }

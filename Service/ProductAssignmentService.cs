@@ -119,7 +119,7 @@ namespace Party_Management.Service
             return productAndPartyData;
         }
 
-        public bool UnAssignProduct(int productId , int partyId)
+        public bool UnAssignProduct(int productId, int partyId)
         {
             var assignment = _db.PartyAssignments
                              .FirstOrDefault(a => a.ProductId == productId && a.PartyId == partyId);

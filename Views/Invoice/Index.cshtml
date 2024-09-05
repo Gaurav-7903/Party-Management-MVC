@@ -6,7 +6,11 @@
 
 <h1> Create a Invoice</h1>
 
-<a asp-action="Create" asp-controller="Invoice" class="btn btn-secondary">Create Invoice</a>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" asp-controller="Invoice" class="btn btn-secondary">Create Invoice</a>  
+}
+
 
 <table class="table table-striped shadow-sm p-3 my-2 bg-dark rounded p-3" id="InvoiceTable">
     <thead>

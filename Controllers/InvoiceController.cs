@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Party_Management.DTOs;
@@ -34,6 +35,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(int? partyId)
         {
             ViewBag.Party = _partyService.GetAllParty().Select(p => new
@@ -45,18 +47,27 @@ namespace Party_Management.Controllers
 
             if (partyId.HasValue)
             {
-                var products = _productAssignmentService.GetAssignProductByPartyID(partyId.Value);
-                ViewBag.products = products.Select(p => new
+                IEnumerable<ProductResponseDTO> products;
+                try
                 {
-                    ProductName = p.ProductName,
-                    ProductId = p.ProductId.ToString(),
-                    Price = p.Price.ToString("F2") // Format price as needed
-                });
-                invoiceView = new InvoiceViewModel()
+                    products = _productAssignmentService.GetAssignProductByPartyID(partyId.Value);
+                    ViewBag.products = products.Select(p => new
+                    {
+                        ProductName = p.ProductName,
+                        ProductId = p.ProductId.ToString(),
+                        Price = p.Price.ToString("F2") // Format price as needed
+                    });
+                    invoiceView = new InvoiceViewModel()
+                    {
+                        PartyId = partyId.Value,
+                        PartyName = _partyService.GetPartyById(partyId.Value).PartyName
+                    };
+                }
+                catch(Exception ex)
                 {
-                    PartyId = partyId.Value,
-                    PartyName = _partyService.GetPartyById(partyId.Value).PartyName
-                };
+                    TempData["ErrorMessage"] = "The party ID provided is invalid or does not exist." + ex;
+                    return RedirectToAction("Error", "Home");
+                }
             }
             else
             {
@@ -68,6 +79,7 @@ namespace Party_Management.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateInvoice([FromBody] List<InvoiceRequestDTO> invoiceData)
         {
             Console.WriteLine("Enter in Controller");
@@ -84,7 +96,7 @@ namespace Party_Management.Controllers
 
             InvoiceResponseDTO invoiceResponse = _invoiceService.AddInvoice(invoiceData, invoiceData[0].PartyId);
 
-            return Ok(new { Message = "Invoice created successfully!", Total = invoiceResponse.Total.ToString(), TotalItem = invoiceResponse.ProductCount.ToString() , invoiceId = invoiceResponse.InvoiceId });
+            return Ok(new { Message = "Invoice created successfully!", Total = invoiceResponse.Total.ToString(), TotalItem = invoiceResponse.ProductCount.ToString(), invoiceId = invoiceResponse.InvoiceId });
         }
 
         [HttpGet]

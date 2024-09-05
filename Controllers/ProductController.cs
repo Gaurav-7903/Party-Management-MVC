@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Party_Management.DTOs;
 using Party_Management.Models;
 using Party_Management.ServiceContract;
@@ -31,6 +32,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(ProductRequestDTO productRequest)
         {
             if (!ModelState.IsValid)
@@ -45,6 +47,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(int productId)
         {
             ProductResponseDTO reponse = _productService.GetProductById(productId);
@@ -52,6 +55,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(ProductResponseDTO productResponseDTO)
         {
             if (!ModelState.IsValid)
@@ -67,6 +71,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int productId)
         {
             ProductResponseDTO reponse = _productService.GetProductById(productId);
@@ -74,6 +79,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int ProductId, ProductResponseDTO productResponseDTO)
         {
             if (ProductId <= 0)
@@ -103,6 +109,7 @@ namespace Party_Management.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult ChangeRate(ProductRateAndProductDTO request)
         {
             if (request.ProductRateRequestDTO == null)

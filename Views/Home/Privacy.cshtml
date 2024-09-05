@@ -1,6 +1,73 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+    ViewBag.Title = "Privacy Policy";
+    string Email = "partymanagemet@example.com";
+    string Phone = "1234567890";
+    DateTime dateTime = DateTime.Parse("2024-09-01");
+    string Address = "Rajkot";
 
-<p>Use this page to detail your site's privacy policy.</p>
+}
+
+<div class="container">
+    <h1 class="mt-5">Privacy Policy</h1>
+    <p class="text-muted">Effective Date: @dateTime</p>
+
+    <div class="mt-4">
+        <h3>1. Information We Collect</h3>
+        <p>We collect the following types of information:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> Includes names, addresses, phone numbers, email addresses, and other information related to parties, products, and invoices.</li>
+            <li><strong>Transactional Data:</strong> Information about products, pricing, quantities, and invoices generated in the system.</li>
+            <li><strong>Usage Data:</strong> Information on how the system is accessed and used, including IP addresses, browser types, and access times.</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>2. How We Use the Information</h3>
+        <p>We use the collected information for the following purposes:</p>
+        <ul>
+            <li><strong>System Operation:</strong> To manage and maintain the party, product, and invoice functionalities within the system.</li>
+            <li><strong>Communication:</strong> To send notifications or alerts related to transactions or system updates.</li>
+            <li><strong>Data Analytics:</strong> To analyze system usage and improve system performance.</li>
+            <li><strong>Compliance:</strong> To comply with legal obligations and protect our rights.</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>3. Sharing of Information</h3>
+        <p>We do not sell or rent your personal information. However, we may share your data in the following circumstances:</p>
+        <ul>
+            <li><strong>With Service Providers:</strong> We may share data with third-party service providers who assist us with system operations, provided they comply with our privacy standards.</li>
+            <li><strong>Legal Compliance:</strong> We may disclose your data if required by law or to respond to valid legal requests.</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>4. Data Security</h3>
+        <p>We implement appropriate security measures to protect your data from unauthorized access, disclosure, alteration, or destruction. However, no system is completely secure, and we cannot guarantee the absolute security of your data.</p>
+    </div>
+
+    <div class="mt-4">
+        <h3>5. Your Rights</h3>
+        <p>You have the following rights regarding your personal information:</p>
+        <ul>
+            <li><strong>Access:</strong> You may request access to the personal data we hold about you.</li>
+            <li><strong>Correction:</strong> You may request corrections to any inaccuracies in your data.</li>
+            <li><strong>Deletion:</strong> You may request the deletion of your data, subject to certain legal and operational limitations.</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <h3>6. Changes to This Policy</h3>
+        <p>We may update this Privacy Policy from time to time. Changes will be effective when posted, and we will notify you of significant changes via email or system notifications.</p>
+    </div>
+
+    <div class="mt-4">
+        <h3>7. Contact Us</h3>
+        <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
+        <ul>
+            <li><strong>Email:</strong> @Email</li>
+            <li><strong>Phone:</strong> @Phone</li>
+            <li><strong>Address:</strong> @Address</li>
+        </ul>
+    </div>
+</div>
