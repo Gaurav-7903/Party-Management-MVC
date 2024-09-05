@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Party_Management.DTOs;
 using Party_Management.Models;
 using Party_Management.ServiceContract;
 using Party_Management.ViewModels;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 using ServiceContract;
 
 namespace Party_Management.Controllers
@@ -81,7 +84,7 @@ namespace Party_Management.Controllers
 
             InvoiceResponseDTO invoiceResponse = _invoiceService.AddInvoice(invoiceData, invoiceData[0].PartyId);
 
-            return Ok(new { Message = "Invoice created successfully!", Total = invoiceResponse.Total.ToString(), TotalItem = invoiceResponse.ProductCount.ToString() });
+            return Ok(new { Message = "Invoice created successfully!", Total = invoiceResponse.Total.ToString(), TotalItem = invoiceResponse.ProductCount.ToString() , invoiceId = invoiceResponse.InvoiceId });
         }
 
         [HttpGet]
@@ -97,6 +100,7 @@ namespace Party_Management.Controllers
             return View(invoiceDetail);
         }
 
+        [HttpGet]
         public IActionResult InvoiceByParty(int partyId)
         {
             if (partyId < 0)
@@ -107,6 +111,24 @@ namespace Party_Management.Controllers
             IEnumerable<InvoiceResponseDTO> invoiceDetsilByParty = _invoiceService.GetInvoiceByPartyId(partyId);
 
             return View(invoiceDetsilByParty);
+        }
+
+        [HttpGet]
+        public IActionResult InvoicePDF(int invoiceId)
+        {
+            if (invoiceId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(invoiceId));
+            }
+
+            InvoiceDetailDTO invoiceDetail = _invoiceService.GetInvoiceDetailsByInvoiceId(invoiceId);
+
+            //return View(invoiceDetail);
+
+            return new ViewAsPdf("InvoicePDF", invoiceDetail, ViewData)
+            {
+                PageMargins = new Margins() { Top = 15, Bottom = 15, Left = 15, Right = 15 },
+            };
         }
 
 

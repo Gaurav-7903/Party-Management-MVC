@@ -167,7 +167,6 @@
 
                 console.log(invoiceData);
                 if (invoiceData.length == 0) {
-                    console.log(invoiceData.length)
                     alert('Please add at least one product to the invoice.');
                     return;
                 }
@@ -181,9 +180,8 @@
                         'RequestVerificationToken': antiForgeryToken
                     },
                     success: function (response) {
-                        // Handle success (e.g., redirect to another page, show a success message)
                         alert('Invoice created successfully!');
-                        window.location.href = "/Invoice/Index"
+                        window.location.href = "/Invoice/Details?InvoiceId=" + response.invoiceId;
                         // window.location.href = "/Invoice/Details/" + response.invoiceId;
                     },
                     error: function (xhr, status, error) {
