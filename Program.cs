@@ -7,6 +7,7 @@ using Party_Management.Data;
 using Party_Management.Models;
 using Party_Management.Service;
 using Party_Management.ServiceContract;
+using Party_Management.Middleware;
 using ServiceContract;
 using Services;
 
@@ -70,7 +71,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandlingMiddleware();
 }
 
 // PDF Generator Setup
